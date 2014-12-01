@@ -1,18 +1,8 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
     <wb-module deploy-name="checkersTheSequel">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
         <property name="context-root" value="checkersTheSequel"/>
         <property name="java-output-path" value="/checkersTheSequel/bin"/>
-=======
-<?xml version="1.0" encoding="UTF-8"?>
-<project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="checkers-the-sequel">
-        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="checkers-the-sequel"/>
-        <property name="java-output-path" value="/checkers-the-sequel/build/classes"/>
->>>>>>> 65cbb3360800d0b265bdb58729fee0dde74fc245
     </wb-module>
 </project-modules>
