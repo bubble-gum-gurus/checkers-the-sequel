@@ -1,6 +1,11 @@
 checkers-the-sequel
 ===================
 
+Tunnel
+------
+
+Tunnel to the hex server using `ssh -fNg -L 3306:localhost:3306 USERNAME@hex-server15-ev7421.concordia.ca`
+
 Installation
 ------------
 

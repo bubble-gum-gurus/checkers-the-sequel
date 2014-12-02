@@ -52,7 +52,7 @@ public class LoginCommand extends CheckersCommand {
 		}
 
 		// Security Check!
-		helper.invalidateSession();
+//		helper.invalidateSession();
 
 		// Store PlayerId in sesssion
 		helper.setSessionAttribute(PLAYER_ID_ATTR, currentPlayer.getId());
