@@ -9,7 +9,7 @@ public class LogOut extends CheckersDispatcher {
 	@Override
 	public void execute() throws ServletException, IOException {
 		// I can't convince myself that I need a command here
-		myHelper.invalidateSession();
+//		myHelper.invalidateSession();
 		forward("success.jsp");
 	}
 }
