@@ -2,12 +2,10 @@ package org.soen387.app;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.dsrg.soenea.application.servlet.DispatcherServlet;
 import org.dsrg.soenea.application.servlet.Servlet;
 import org.dsrg.soenea.domain.user.User;
