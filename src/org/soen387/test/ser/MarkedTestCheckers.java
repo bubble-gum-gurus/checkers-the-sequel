@@ -373,6 +373,69 @@ public class MarkedTestCheckers {
 		assertSuccess(d);
 	}
 	
+	@ScoreAnnotation(4)
+	@Test
+	public void testWithdrawChallenge() throws SAXException, IOException, XpathException, XPathExpressionException {
+
+		System.out.println("TTITTIESSS");
+		
+		Document d = register("j", "j", "j", "json", "json@jbob.com", httpclient);
+		long dId = getPlayerId(d);
+		d = register("a", "a", "a", "assbrunch", "ass@brunch.com", httpclient);
+		long aId = getPlayerId(d);
+		login("j", "j", httpclient);
+		d = challengePlayer(aId, httpclient);
+		long challengeId = getChallengeId(d);
+		int challengeVersion = getChallengeVersion(d);
+		
+		logout(httpclient);
+		withdrawChallenge(challengeId, httpclient);
+		d = listChallenges(httpclient);
+		XMLAssert.assertXpathExists("/checkers/challenges/challenge[@id='" + challengeId + "']", d);
+		
+		login("a", "a", httpclient);
+		withdrawChallenge(challengeId, httpclient);
+		d = listChallenges(httpclient);
+		XMLAssert.assertXpathExists("/checkers/challenges/challenge[@id='" + challengeId + "'] ", d);
+		
+		respondToChallenge(challengeId, challengeVersion, true, httpclient);
+		logout(httpclient);
+		login("j", "j", httpclient);
+		withdrawChallenge(challengeId, httpclient);
+		XMLAssert.assertXpathExists("/checkers/challenges/challenge[@id='" + challengeId + "'] ", d);
+		
+		
+		d = register("t", "t", "t", "tata", "tata@fornow.com", httpclient);
+		logout(httpclient);
+		login("t", "t", httpclient);
+		d = challengePlayer(aId, httpclient);
+		challengeId = getChallengeId(d);
+		XMLAssert.assertXpathNotExists("/checkers/challenges/challenge[@id='" + challengeId + "'] ", d);
+		
+		
+		assertSuccess(d);
+	}
+	
+	
+	
+	public final String WITHDRAW_CHALLENGE = BASE_URL+FieldMap.current.get().get("WITHDRAW_CHALLENGE_PATH");
+	public Document withdrawChallenge(long challengeId, CloseableHttpClient closeableHttpClient) throws ParseException, ClientProtocolException, IOException, SAXException {
+		StringTemplate template = new StringTemplate();
+		template.setTemplate(WITHDRAW_CHALLENGE);
+		template.setAttribute("id", challengeId + "");
+		HttpPost httpPost = new HttpPost(template.toString());
+		List <NameValuePair> nvps = new ArrayList <NameValuePair>();
+		nvps.add(new BasicNameValuePair(FieldMap.current.get().get("XML_PARAM"), FieldMap.current.get().get("XML_VALUE")));
+		httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+		CloseableHttpResponse requestResponse = closeableHttpClient.execute(httpPost);
+		String response = EntityUtils.toString(requestResponse.getEntity());
+		String details = prettyPrintPost(httpPost, nvps, response);
+		System.out.println(details);
+		requestResponse.close();
+		return XMLUnit.buildControlDocument(response);
+	}
+	
+	
 	public final String LOGIN = BASE_URL+FieldMap.current.get().get("LOGIN_PATH");
 	public Document login(String user, String pass, CloseableHttpClient closeableHttpClient) throws ParseException, ClientProtocolException, IOException, SAXException {
 		
