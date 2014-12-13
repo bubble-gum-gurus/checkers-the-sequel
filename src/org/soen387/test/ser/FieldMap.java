@@ -111,6 +111,8 @@ public class FieldMap extends ThreadLocal<Map<String, String>> {
 		
 		myMap.put("DEBUG", "true");
 		
+		myMap.put("WITHDRAW_CHALLENGE_PATH", "/Game/Challenge/$id$/Withdraw");
+		
 		return myMap;
 	}
 	
