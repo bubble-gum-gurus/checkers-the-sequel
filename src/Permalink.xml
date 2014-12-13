@@ -5,6 +5,11 @@
         <attribute name="checkerboard" />
     </Permalink>
     <Permalink>
+    	<pattern>Game/Board/(\d*)/Concede</pattern>
+    	<dispatcher>org.soen387.app.dispatcher.Concede</dispatcher>
+    	<attribute name="checkerboard" />
+    </Permalink>
+    <Permalink>
         <pattern>Game/Challenge/</pattern>
         <dispatcher>org.soen387.app.dispatcher.ListChallenges</dispatcher>
     </Permalink>    
