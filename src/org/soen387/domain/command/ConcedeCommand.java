@@ -24,6 +24,8 @@ import org.soen387.domain.model.challenge.mapper.ChallengeInputMapper;
 import org.soen387.domain.model.checkerboard.GameStatus;
 import org.soen387.domain.model.checkerboard.ICheckerBoard;
 import org.soen387.domain.model.checkerboard.mapper.CheckerBoardInputMapper;
+import org.soen387.domain.model.notification.NotificationFactory;
+import org.soen387.domain.model.notification.NotificationStatus;
 import org.soen387.domain.model.player.IPlayer;
 import org.soen387.domain.model.player.mapper.PlayerInputMapper;
 
@@ -56,9 +58,12 @@ public class ConcedeCommand extends CheckersCommand {
 				throw new PlayerNotInvolvedInGameException();
 			}
 		
+			IPlayer otherPlayer = checkerboard.getFirstPlayer().getId() == currentPlayer.getId() ? checkerboard.getSecondPlayer() : checkerboard.getFirstPlayer();
+			NotificationFactory.createNew(false, NotificationStatus.CONCEDED, otherPlayer);
+			NotificationFactory.createNew(false, NotificationStatus.WON, otherPlayer);
 			checkerboard.setStatus(GameStatus.Won);
 			UoW.getCurrent().registerDirty(checkerboard);
-		} catch (MapperException e) {
+		} catch (Exception e) {
 			throw new CommandException();
 		} finally {}
 	}
