@@ -21,11 +21,11 @@ public class NotificationFinder {
 		return ps.executeQuery();
 	}
 	
-	public static final String FIND_BY_USER = "SELECT " + NotificationTDG.COLUMNS + " FROM " + NotificationTDG.TABLE_NAME + " WHERE user=?;";
-	public static ResultSet findByUser(long user) throws SQLException {
+	public static final String FIND_BY_USER = "SELECT " + NotificationTDG.COLUMNS + " FROM " + NotificationTDG.TABLE_NAME + " WHERE recipient=?;";
+	public static ResultSet findByPlayer(long player) throws SQLException {
     	Connection con = DbRegistry.getDbConnection();
 		PreparedStatement ps = con.prepareStatement(FIND);
-		ps.setLong(1,user);
+		ps.setLong(1,player);
 		return ps.executeQuery();
 	}
 	

@@ -12,4 +12,6 @@ public interface INotification extends IDomainObject<Long> {
 	public abstract void setStatus (NotificationStatus status);
 	public abstract IPlayer getRecipient ();
 	public abstract void setRecipient(IPlayer player);
+	public abstract long getOther ();
+	public abstract void setOther (long other);
 }

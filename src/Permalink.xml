@@ -53,4 +53,8 @@
     	<dispatcher>org.soen387.app.dispatcher.WithdrawChallenge</dispatcher>
     	<attribute name="challenge" />
     </Permalink>
+    <Permalink>
+    	<pattern>Game/Notifications</pattern>
+    	<dispatcher>org.soen387.app.dispatcher.ViewNotifications</dispatcher>
+    </Permalink>
 </permalinks>

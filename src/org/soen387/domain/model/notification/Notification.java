@@ -10,14 +10,16 @@ public class Notification extends DomainObject<Long> implements INotification {
 	private boolean seen;
 	private NotificationStatus status;
 	private IPlayer recipient;
+	private long other;
 
-	public Notification (long id, long version, boolean seen, NotificationStatus status, IPlayer recipient) {
+	public Notification (long id, long version, boolean seen, NotificationStatus status, IPlayer recipient, long other) {
 		super(id, version);
 		this.id = id;
 		this.version = version;
 		this.seen = seen;
 		this.status = status;
 		this.recipient = recipient;
+		this.other = other;
 	}
 
 	@Override
@@ -63,6 +65,16 @@ public class Notification extends DomainObject<Long> implements INotification {
 	@Override
 	public void setRecipient(IPlayer player) {
 		this.recipient = player;
+	}
+	
+	@Override
+	public long getOther () {
+		return this.other;
+	}
+	
+	@Override
+	public void setOther(long other) {
+		this.other = other;
 	}
 
 }

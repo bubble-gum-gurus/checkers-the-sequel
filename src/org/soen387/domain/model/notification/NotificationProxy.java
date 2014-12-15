@@ -45,6 +45,16 @@ public class NotificationProxy extends DomainObjectProxy<Long, Notification> imp
 	public void setRecipient(IPlayer player) {
 		getInnerObject().setRecipient(player);
 	}
+	
+	@Override
+	public long getOther () {
+		return getInnerObject().getOther();
+	}
+	
+	@Override
+	public void setOther (long other) {
+		getInnerObject().setOther(other);
+	}
 
 	@Override
 	protected Notification getFromMapper(Long id) throws MapperException,

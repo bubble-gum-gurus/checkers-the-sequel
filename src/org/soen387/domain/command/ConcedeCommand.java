@@ -59,8 +59,8 @@ public class ConcedeCommand extends CheckersCommand {
 			}
 		
 			IPlayer otherPlayer = checkerboard.getFirstPlayer().getId() == currentPlayer.getId() ? checkerboard.getSecondPlayer() : checkerboard.getFirstPlayer();
-			NotificationFactory.createNew(false, NotificationStatus.CONCEDED, otherPlayer);
-			NotificationFactory.createNew(false, NotificationStatus.WON, otherPlayer);
+			NotificationFactory.createNew(false, NotificationStatus.CONCEDED, otherPlayer, checkerboard.getId());
+			NotificationFactory.createNew(false, NotificationStatus.WON, otherPlayer, checkerboard.getId());
 			checkerboard.setStatus(GameStatus.Won);
 			UoW.getCurrent().registerDirty(checkerboard);
 		} catch (Exception e) {

@@ -11,7 +11,7 @@ public class NotificationOutputMapper {
 	
 	public void insert(Notification n) throws MapperException {
 		try {
-			NotificationTDG.insert(n.getId(), n.getVersion(), n.getStatus().getId(), n.getRecipient().getId(), n.getSeen());
+			NotificationTDG.insert(n.getId(), n.getVersion(), n.getStatus().getId(), n.getRecipient().getId(), n.getSeen(), n.getOther());
 		} catch (SQLException e) {
 			throw new MapperException(e);
 		}
@@ -19,7 +19,7 @@ public class NotificationOutputMapper {
 
 	public void update(Notification n) throws MapperException, LostUpdateException {
 		try {
-			int count = NotificationTDG.update(n.getId(), n.getVersion(), n.getStatus().getId(), n.getRecipient().getId(), n.getSeen());
+			int count = NotificationTDG.update(n.getId(), n.getVersion(), n.getStatus().getId(), n.getRecipient().getId(), n.getSeen(), n.getOther());
 			if(count==0) throw new LostUpdateException("Lost Update editing player with id " + n.getId());
 			n.setVersion(n.getVersion()+1);
 		} catch (SQLException e) {

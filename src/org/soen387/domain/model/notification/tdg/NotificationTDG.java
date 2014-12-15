@@ -10,7 +10,7 @@ import org.dsrg.soenea.service.threadLocal.DbRegistry;
 
 public class NotificationTDG {
 	public static final String TABLE_NAME = "Notification";
-	public static final String COLUMNS = "id, version, status, recipient, seen ";
+	public static final String COLUMNS = "id, version, status, recipient, seen, other ";
 	public static final String TRUNCATE_TABLE = "TRUNCATE TABLE  " + TABLE_NAME + ";";
 	public static final String DROP_TABLE = "DROP TABLE  " + TABLE_NAME + ";";
 	public static final String CREATE_TABLE ="CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" 
@@ -19,6 +19,7 @@ public class NotificationTDG {
 			+ "status INT, "
 			+ "recipient BIGINT, "
 			+ "seen BOOLEAN, "
+			+ "other BIGINT, "
 			+ "PRIMARY KEY(id) "
 			+ ");";
 
@@ -38,8 +39,8 @@ public class NotificationTDG {
 	
 	
 	public static final String INSERT = "INSERT INTO " + TABLE_NAME + " (" + COLUMNS + ") "
-			+ "VALUES (?,?,?,?,?);";
-	public static int insert(long id, long version, int status, long recipient, boolean seen) throws SQLException {
+			+ "VALUES (?,?,?,?,?,?);";
+	public static int insert(long id, long version, int status, long recipient, boolean seen, long other) throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
 		PreparedStatement ps = con.prepareStatement(INSERT);
 		ps.setLong(1,id);
@@ -47,19 +48,21 @@ public class NotificationTDG {
 		ps.setInt(3,status);
 		ps.setLong(4,recipient);
 		ps.setBoolean(5,seen);
+		ps.setLong(6, other);
 		return ps.executeUpdate();
 	}
 	
-	public static final String UPDATE = "UPDATE " + TABLE_NAME + " set version = version+1, status=?, recipient=?, seen=? "
+	public static final String UPDATE = "UPDATE " + TABLE_NAME + " set version = version+1, status=?, recipient=?, seen=?, other=? "
 			+ " WHERE id=? AND version=?;";
-	public static int update(long id, long version, int status, long recipient, boolean seen) throws SQLException {
+	public static int update(long id, long version, int status, long recipient, boolean seen, long other) throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
 		PreparedStatement ps = con.prepareStatement(UPDATE);
 		ps.setInt(1,status);
 		ps.setLong(2,recipient);
 		ps.setBoolean(3,seen);
-		ps.setLong(4,id);
-		ps.setLong(5,version);
+		ps.setLong(4, other);
+		ps.setLong(5,id);
+		ps.setLong(6,version);
 		return ps.executeUpdate();
 	}
 	

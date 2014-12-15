@@ -17,11 +17,9 @@ import org.soen387.domain.model.notification.INotification;
 import org.soen387.domain.model.notification.Notification;
 import org.soen387.domain.model.notification.NotificationFactory;
 import org.soen387.domain.model.notification.NotificationStatus;
+import org.soen387.domain.model.notification.tdg.NotificationFinder;
 import org.soen387.domain.model.player.IPlayer;
-import org.soen387.domain.model.player.Player;
-import org.soen387.domain.model.player.PlayerFactory;
 import org.soen387.domain.model.player.PlayerProxy;
-import org.soen387.domain.model.player.tdg.PlayerFinder;
 
 public class NotificationInputMapper implements IdentityBasedProducer {
 	@IdentityBasedProducerMethod
@@ -36,7 +34,7 @@ public class NotificationInputMapper implements IdentityBasedProducer {
 		if (p != null)
 			return p;
 
-		final ResultSet rs = PlayerFinder.find(id);
+		final ResultSet rs = NotificationFinder.find(id);
 		if (rs.next()) {
 			p = buildNotification(rs);
 			rs.close();
@@ -44,6 +42,15 @@ public class NotificationInputMapper implements IdentityBasedProducer {
 		}
 		throw new DomainObjectNotFoundException(
 				"Could not create a Player with id \"" + id + "\"");
+	}
+	
+	public static List<INotification> find(IPlayer player) throws SQLException, MapperException {
+		try {
+			ResultSet rs = NotificationFinder.findByPlayer(player.getId());
+			return buildCollection(rs);
+		} catch (final SQLException e) {
+			throw new MapperException(e);
+		}
 	}
 
 	public static List<INotification> buildCollection(ResultSet rs)
@@ -68,7 +75,7 @@ public class NotificationInputMapper implements IdentityBasedProducer {
 
 	public static List<INotification> findAll() throws MapperException {
 		try {
-			final ResultSet rs = PlayerFinder.findAll();
+			final ResultSet rs = NotificationFinder.findAll();
 			return buildCollection(rs);
 		} catch (final SQLException e) {
 			throw new MapperException(e);
@@ -78,6 +85,6 @@ public class NotificationInputMapper implements IdentityBasedProducer {
 	private static Notification buildNotification(ResultSet rs) throws SQLException {
 		return NotificationFactory.createClean(rs.getLong("id"), rs
 				.getLong("version"), rs.getBoolean("seen"), NotificationStatus.values()[rs.getInt("status")], 
-				new PlayerProxy(rs.getLong("recipient")));
+				new PlayerProxy(rs.getLong("recipient")), rs.getLong("other"));
 	}
 }
