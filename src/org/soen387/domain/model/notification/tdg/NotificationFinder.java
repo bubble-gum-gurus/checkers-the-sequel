@@ -21,13 +21,23 @@ public class NotificationFinder {
 		return ps.executeQuery();
 	}
 	
-	public static final String FIND_BY_USER = "SELECT " + NotificationTDG.COLUMNS + " FROM " + NotificationTDG.TABLE_NAME + " WHERE recipient=?;";
+	public static final String FIND_BY_PLAYER = "SELECT " + NotificationTDG.COLUMNS + " FROM " + NotificationTDG.TABLE_NAME + " WHERE recipient=?;";
 	public static ResultSet findByPlayer(long player) throws SQLException {
+    	Connection con = DbRegistry.getDbConnection();
+		PreparedStatement ps = con.prepareStatement(FIND_BY_PLAYER);
+		ps.setLong(1,player);
+		return ps.executeQuery();
+	}
+
+	
+	public static final String FIND_UNSEEN_BY_PLAYER = "SELECT " + NotificationTDG.COLUMNS + " FROM " + NotificationTDG.TABLE_NAME + " WHERE recipient=? AND unseen=1;";
+	public static ResultSet findUnseenByPlayer(long player) throws SQLException {
     	Connection con = DbRegistry.getDbConnection();
 		PreparedStatement ps = con.prepareStatement(FIND);
 		ps.setLong(1,player);
 		return ps.executeQuery();
 	}
+	
 	
 	public static final String FIND_ALL = "SELECT " + NotificationTDG.COLUMNS + " FROM " + NotificationTDG.TABLE_NAME + ";";
 	public static ResultSet findAll() throws SQLException {

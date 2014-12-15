@@ -52,6 +52,15 @@ public class NotificationInputMapper implements IdentityBasedProducer {
 			throw new MapperException(e);
 		}
 	}
+	
+	public static List<INotification> findUnseen(IPlayer player) throws SQLException, MapperException {
+		try {
+			ResultSet rs = NotificationFinder.findUnseenByPlayer(player.getId());
+			return buildCollection(rs);
+		} catch (final SQLException e) {
+			throw new MapperException(e);
+		}
+	}
 
 	public static List<INotification> buildCollection(ResultSet rs)
 			throws SQLException, DomainObjectNotFoundException {
