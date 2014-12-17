@@ -23,6 +23,7 @@ public class DeletePlayer extends CheckersDispatcher {
 			try {
 				new DeletePlayerCommand(myHelper).execute();
 				UoW.getCurrent().commit();
+				myHelper.invalidateSession();
 				forward("success.jsp");
 			} catch (final NeedToBeLoggedInException e) {
 				fail("You need to be logged in to challenge a player.");
