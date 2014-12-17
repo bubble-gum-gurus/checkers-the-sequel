@@ -13,6 +13,7 @@ import org.dsrg.soenea.domain.producer.IdentityBasedProducer;
 import org.dsrg.soenea.domain.producer.IdentityBasedProducerMethod;
 import org.dsrg.soenea.domain.user.IUser;
 import org.dsrg.soenea.domain.user.UserProxy;
+import org.soen387.domain.model.challenge.IChallenge;
 import org.soen387.domain.model.notification.INotification;
 import org.soen387.domain.model.notification.Notification;
 import org.soen387.domain.model.notification.NotificationFactory;
@@ -42,6 +43,15 @@ public class NotificationInputMapper implements IdentityBasedProducer {
 		}
 		throw new DomainObjectNotFoundException(
 				"Could not create a Player with id \"" + id + "\"");
+	}
+	
+	public static List<INotification> findUnseenChallenge(IChallenge challenge) throws SQLException, MapperException {
+		try {
+			ResultSet rs = NotificationFinder.findUnseenByChallenge(challenge.getId());
+			return buildCollection(rs);
+		} catch (final SQLException e) {
+			throw new MapperException(e);
+		}
 	}
 	
 	public static List<INotification> find(IPlayer player) throws SQLException, MapperException {

@@ -44,6 +44,11 @@
         <attribute name="player" />
     </Permalink>
     <Permalink>
+    	<pattern>Game/Player/(\d*)/Delete</pattern>
+    	<dispatcher>org.soen387.app.dispatcher.DeletePlayer</dispatcher>
+    	<attribute name="player" />
+    </Permalink>
+    <Permalink>
         <pattern>Game/Challenge/(\d*)</pattern>
         <dispatcher>org.soen387.app.dispatcher.RespondToChallenge</dispatcher>
         <attribute name="challenge" />
