@@ -16,25 +16,30 @@ import org.soen387.domain.model.checkerboard.ICheckerBoard;
 import org.soen387.domain.model.checkerboard.mapper.CheckerBoardInputMapper;
 import org.soen387.domain.model.notification.INotification;
 import org.soen387.domain.model.notification.mapper.NotificationInputMapper;
-import org.soen387.domain.model.player.IPlayer;
-import org.soen387.domain.model.player.mapper.PlayerInputMapper;
 
-public class ViewNotificationsCommand extends CheckersCommand  {
-	public ViewNotificationsCommand(Helper helper) {
+public class DeleteNotificationCommand extends CheckersCommand  {
+	public DeleteNotificationCommand(Helper helper) {
 		super(helper);
 	}
+
+	@SetInRequestAttribute
+	@Source(sources=PermalinkSource.class)
+	@IdentityBasedProducer(mapper=NotificationInputMapper.class)
+	public INotification notification;
 	
 	@Override
 	public void process() throws CommandException {
+		if(currentPlayer == null) {
+			throw new NeedToBeLoggedInException();
+		}
+		if(notification.getRecipient().getId() != currentPlayer.getId()) {
+			throw new NeedToBeLoggedInException();
+		}
+		helper.setRequestAttribute("notification", notification);
 		try {
-			if(currentPlayer == null) {
-				throw new NeedToBeLoggedInException();
-			}
-			helper.setRequestAttribute("notifications", NotificationInputMapper.find(currentPlayer));
-		} catch (SQLException e) {
+			UoW.getCurrent().registerRemoved(notification);
+		} catch (MissingMappingException | MapperException e) {
 			e.printStackTrace();
-			throw new CommandException();
-		} catch (MapperException e) {
 			throw new CommandException();
 		}
 	}

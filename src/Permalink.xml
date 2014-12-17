@@ -66,4 +66,9 @@
     	<dispatcher>org.soen387.app.dispatcher.ViewNotification</dispatcher>
     	<attribute name="notification"/>
     </Permalink>
+    <Permalink>
+    	<pattern>Game/Notifications/(\d*)/Delete</pattern>
+    	<dispatcher>org.soen387.app.dispatcher.ViewNotification</dispatcher>
+    	<attribute name="notification" />
+    </Permalink>
 </permalinks>

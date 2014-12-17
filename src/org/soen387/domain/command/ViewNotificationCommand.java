@@ -9,9 +9,12 @@ import org.dsrg.soenea.domain.command.validator.source.IdentityBasedProducer;
 import org.dsrg.soenea.domain.command.validator.source.Source;
 import org.dsrg.soenea.domain.command.validator.source.impl.PermalinkSource;
 import org.dsrg.soenea.domain.helper.Helper;
+import org.dsrg.soenea.uow.MissingMappingException;
+import org.dsrg.soenea.uow.UoW;
 import org.soen387.domain.command.exception.NeedToBeLoggedInException;
 import org.soen387.domain.model.checkerboard.ICheckerBoard;
 import org.soen387.domain.model.checkerboard.mapper.CheckerBoardInputMapper;
+import org.soen387.domain.model.notification.INotification;
 import org.soen387.domain.model.notification.mapper.NotificationInputMapper;
 
 public class ViewNotificationCommand extends CheckersCommand  {
@@ -19,17 +22,28 @@ public class ViewNotificationCommand extends CheckersCommand  {
 		super(helper);
 	}
 	
+	@SetInRequestAttribute
+	@Source(sources=PermalinkSource.class)
+	@IdentityBasedProducer(mapper=NotificationInputMapper.class)
+	public INotification notification;
+	
 	@Override
 	public void process() throws CommandException {
+		if(currentPlayer == null) {
+			throw new NeedToBeLoggedInException();
+		}
+		if(notification.getRecipient().getId() != currentPlayer.getId()) {
+			throw new NeedToBeLoggedInException();
+		}
+		if (notification.getSeen()) {
+			throw new NeedToBeLoggedInException();
+		}
+		helper.setRequestAttribute("notification", notification);
+		notification.setSeen(true);
 		try {
-			if(currentPlayer == null) {
-				throw new NeedToBeLoggedInException();
-			}
-			helper.setRequestAttribute("notifications", NotificationInputMapper.find(currentPlayer));
-		} catch (SQLException e) {
+			UoW.getCurrent().registerDirty(notification);
+		} catch (MissingMappingException | MapperException e) {
 			e.printStackTrace();
-			throw new CommandException();
-		} catch (MapperException e) {
 			throw new CommandException();
 		}
 	}
