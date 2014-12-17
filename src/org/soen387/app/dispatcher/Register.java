@@ -19,7 +19,6 @@ public class Register extends CheckersDispatcher {
 			//Normally I tend to do this in the command, but let's test what it 
 			//feels like to commit in the Dispatcher
 			UoW.getCurrent().commit();
-			
 			new LoginCommand(myHelper).execute();
 			
 			forward("player.jsp");

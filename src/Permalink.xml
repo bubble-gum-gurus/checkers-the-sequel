@@ -61,4 +61,9 @@
     	<pattern>Game/Notifications/Unseen</pattern>
     	<dispatcher>org.soen387.app.dispatcher.ViewUnseenNotifications</dispatcher>
     </Permalink>
+    <Permalink>
+    	<pattern>Game/Notifications/(\d*)</pattern>
+    	<dispatcher>org.soen387.app.dispatcher.ViewNotification</dispatcher>
+    	<attribute name="notification"/>
+    </Permalink>
 </permalinks>
